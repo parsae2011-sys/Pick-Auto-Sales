@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pick Auto Sales | Premium Dealership</title>
+    
+    <!-- Frameworks & Plugins -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --bg: #030712;
+            --glass: rgba(17, 24, 39, 0.7);
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: #f3f4f6; overflow-x: hidden; }
+        
+        /* Glassmorphism */
+        .glass { background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); }
+        .glass-card { background: rgba(255,255,255,0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-card:hover { border-color: var(--primary); background: rgba(255,255,255,0.05); transform: translateY(-5px); }
+        
+        /* Typography */
+        .text-gradient { background: linear-gradient(to right, #f59e0b, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Admin Transitions */
+        .page-node { display: none; }
+        .page-node.active { display: block; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f59e0b; }
+
+        /* Hero Parallax */
+        .hero-bg { background-attachment: fixed; background-position: center; background-size: cover; }
+        
+        /* Image Preview Grid */
+        .admin-img-slot { aspect-ratio: 16/9; position: relative; border-radius: 12px; overflow: hidden; border: 2px dashed rgba(255,255,255,0.1); }
+        .sold-tag { background: #ef4444; color: white; padding: 4px 12px; border-radius: 4px; font-weight: 800; text-transform: uppercase; font-size: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- LOADING SCREEN -->
+    <div id="loader" class="fixed inset-0 z-[9999] bg-slate-950 flex items-center justify-center transition-opacity duration-700">
+        <div class="text-center">
+            <div class="w-16 h-16 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p class="tracking-[0.3em] font-bold text-amber-500 uppercase">Pick Auto Sales</p>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed top-0 w-full z-50 glass border-b border-white/5 py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300" id="mainNav">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+            <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-black shadow-lg shadow-amber-500/20">
+                <i class="fas fa-car-side text-lg"></i>
+            </div>
+            <span class="text-xl font-black tracking-tighter uppercase" id="site-brand-name">PICK AUTO SALES</span>
+        </div>
+        
+        <div class="hidden md:flex space-x-8 font-semibold text-xs tracking-widest uppercase text-slate-400">
+            <a href="javascript:void(0)" onclick="navigateTo('home')" class="hover:text-amber-500 transition">Home</a>
+            <a href="javascript:void(0)" onclick="navigateTo('inventory')" class="hover:text-amber-500 transition">Inventory</a>
+            <a href="javascript:void(0)" onclick="navigateTo('reviews')" class="hover:text-amber-500 transition">Reviews</a>
+            <a href="javascript:void(0)" onclick="navigateTo('contact')" class="hover:text-amber-500 transition">Contact</a>
+        </div>
+
+        <a id="nav-cta-phone" href="tel:6155743007" class="bg-amber-500 hover:bg-amber-400 text-black px-6 py-2.5 rounded-full font-bold text-xs shadow-xl shadow-amber-500/20 transition-all flex items-center">
+            <i class="fas fa-phone mr-2"></i><span id="nav-phone-text">615.574.3007</span>
+        </a>
+    </nav>
+
+    <!-- CONTENT WRAPPER -->
+    <main class="pt-20">
+
+        <!-- HOME PAGE -->
+        <section id="view-home" class="page-node active animate__animated animate__fadeIn">
+            <!-- Hero -->
+            <div class="relative h-[90vh] flex items-center justify-center overflow-hidden mx-4 md:mx-10 rounded-[2.5rem] mt-4 hero-bg shadow-2xl" 
+                 style="background-image: linear-gradient(rgba(3,7,18,0.7), rgba(3,7,18,0.9)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1920');">
+                <div class="relative z-10 text-center px-6">
+                    <div class="animate__animated animate__fadeInUp">
+                        <span class="text-amber-500 font-bold tracking-[0.5em] uppercase text-xs mb-6 block">Madison, Tennessee</span>
+                        <h1 class="text-6xl md:text-9xl font-black tracking-tighter mb-8 leading-none" id="home-hero-text">
+                            UNCOMPROMISED<br><span class="text-gradient">EXCELLENCE.</span>
+                        </h1>
+                        <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 font-medium" id="home-hero-sub">
+                            The ultimate destination for premium pre-owned vehicles with transparent pricing and white-glove service.
+                        </p>
+                        <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                            <button onclick="navigateTo('inventory')" class="w-full md:w-auto bg-amber-500 hover:bg-amber-400 text-black px-12 py-5 rounded-2xl font-black text-lg transition-all shadow-2xl shadow-amber-500/30">BROWSE INVENTORY</button>
+                            <button onclick="navigateTo('contact')" class="w-full md:w-auto glass px-12 py-5 rounded-2xl font-bold text-lg hover:bg-white/5 transition-all">VISIT OUR LOT</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 px-6 md:px-12 -mt-12 relative z-20">
+                <div class="glass p-6 rounded-3xl flex items-center space-x-5">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-xl"><i class="fas fa-shield-check"></i></div>
+                    <div><h3 class="font-bold text-sm">Certified Stock</h3><p class="text-slate-500 text-xs">Quality Guaranteed</p></div>
+                </div>
+                <div class="glass p-6 rounded-3xl flex items-center space-x-5">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-xl"><i class="fas fa-bolt"></i></div>
+                    <div><h3 class="font-bold text-sm">Fast Approval</h3><p class="text-slate-500 text-xs">Minutes, Not Hours</p></div>
+                </div>
+                <div class="glass p-6 rounded-3xl flex items-center space-x-5">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-xl"><i class="fas fa-tag"></i></div>
+                    <div><h3 class="font-bold text-sm">Best Pricing</h3><p class="text-slate-500 text-xs">No Hidden Fees</p></div>
+                </div>
+                <div class="glass p-6 rounded-3xl flex items-center space-x-5">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-xl"><i class="fas fa-handshake"></i></div>
+                    <div><h3 class="font-bold text-sm">Trusted</h3><p class="text-slate-500 text-xs">5-Star Community</p></div>
+                </div>
+            </div>
+
+            <!-- Featured Section -->
+            <section class="py-32 px-6 md:px-12">
+                <div class="flex justify-between items-end mb-16">
+                    <div>
+                        <h2 class="text-4xl md:text-5xl font-black tracking-tighter">FEATURED <span class="text-gradient">GALLERY</span></h2>
+                        <p class="text-slate-500 mt-2">The latest arrivals at our Madison showroom.</p>
+                    </div>
+                    <button onclick="navigateTo('inventory')" class="hidden md:block text-amber-500 font-bold uppercase tracking-widest text-xs border-b border-amber-500 pb-1">View All Inventory</button>
+                </div>
+                <div id="home-featured-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Featured Cars Load Here -->
+                </div>
+            </section>
+        </section>
+
+        <!-- INVENTORY PAGE -->
+        <section id="view-inventory" class="page-node px-6 md:px-12 py-12">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
+                    <div>
+                        <h2 class="text-5xl font-black tracking-tighter mb-4 underline decoration-amber-500/30 underline-offset-[12px]">THE <span class="text-gradient">CATALOG.</span></h2>
+                        <p class="text-slate-500">Live availability from our premium inventory.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <div class="glass flex items-center px-5 rounded-2xl border-white/5 w-full md:w-96 focus-within:border-amber-500/50 transition-all">
+                            <i class="fas fa-search text-slate-500 mr-4"></i>
+                            <input type="text" id="inv-search-input" oninput="runCatalogFilter()" placeholder="Search year, make, model..." class="bg-transparent border-none outline-none py-4 text-sm w-full font-medium text-white">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Catalog Load Here -->
+                </div>
+                
+                <div id="catalog-empty" class="hidden text-center py-32">
+                    <i class="fas fa-car-burst text-5xl text-slate-800 mb-6"></i>
+                    <p class="text-slate-500 font-bold text-xl">We couldn't find a vehicle matching that search.</p>
+                    <button onclick="clearInvFilters()" class="text-amber-500 mt-4 underline">Clear all filters</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VEHICLE DETAILS PAGE -->
+        <section id="view-details" class="page-node px-6 md:px-12 py-12 max-w-7xl mx-auto">
+            <button onclick="navigateTo('inventory')" class="flex items-center text-amber-500 font-bold mb-10 hover:translate-x-[-10px] transition-transform group">
+                <i class="fas fa-arrow-left mr-3 group-hover:scale-125 transition-all"></i> BACK TO CATALOG
+            </button>
+            <div id="details-render-area" class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Vehicle Details Rendered Here -->
+            </div>
+        </section>
+
+        <!-- REVIEWS PAGE -->
+        <section id="view-reviews" class="page-node px-6 md:px-12 py-20 max-w-5xl mx-auto text-center">
+            <h2 class="text-6xl font-black mb-6 tracking-tighter">CLIENT <span class="text-gradient">TESTIMONIALS.</span></h2>
+            <p class="text-slate-500 mb-20 max-w-2xl mx-auto">Read why hundreds of drivers in Middle Tennessee trust Pick Auto Sales for their vehicle purchases.</p>
+            <div id="reviews-wall" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <!-- Reviews Rendered Here -->
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="view-contact" class="page-node px-6 md:px-12 py-12 max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="glass p-12 rounded-[3rem] border-white/5 relative overflow-hidden">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"></div>
+                    <h2 class="text-5xl font-black mb-12 tracking-tighter">VISIT THE <span class="text-amber-500">SHOWROOM.</span></h2>
+                    
+                    <div class="space-y-12 relative z-10">
+                        <div class="flex items-start space-x-6">
+                            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-2xl shrink-0"><i class="fas fa-phone-office"></i></div>
+                            <div><p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Direct Line</p><p class="text-2xl font-bold" id="contact-p-phone">615-574-3007</p></div>
+                        </div>
+                        <div class="flex items-start space-x-6">
+                            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-2xl shrink-0"><i class="fas fa-map-location-dot"></i></div>
+                            <div><p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Address</p><p class="text-2xl font-bold leading-tight" id="contact-p-address">1484 Gallatin Pike N, Madison, TN 37115</p></div>
+                        </div>
+                        <div class="flex items-start space-x-6">
+                            <div class="w-14 h-14 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 text-2xl shrink-0"><i class="fas fa-clock"></i></div>
+                            <div><p class="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-2">Operation Hours</p><p class="text-xl font-bold whitespace-pre-line leading-relaxed" id="contact-p-hours">Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed</p></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-20 flex gap-4">
+                        <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center text-slate-400 hover:text-amber-500 transition-all"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center text-slate-400 hover:text-amber-500 transition-all"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="w-12 h-12 glass rounded-full flex items-center justify-center text-slate-400 hover:text-amber-500 transition-all"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="rounded-[3rem] overflow-hidden border border-white/10 h-[650px] relative shadow-2xl">
+                    <iframe id="contact-p-map" src="" width="100%" height="100%" style="border:0; filter: grayscale(1) invert(0.9) contrast(1.2);" allowfullscreen="" loading="lazy"></iframe>
+                    <div class="absolute bottom-8 left-8 right-8 glass p-6 rounded-3xl flex justify-between items-center">
+                        <div>
+                            <p class="text-xs font-bold text-amber-500 uppercase tracking-widest">Get Directions</p>
+                            <p class="text-sm font-medium text-slate-300">Open in Navigation App</p>
+                        </div>
+                        <a id="contact-map-btn" href="#" target="_blank" class="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-black shadow-lg shadow-amber-500/20"><i class="fas fa-arrow-up-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN PANEL -->
+        <section id="view-admin" class="page-node px-6 md:px-12 py-10">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex justify-between items-center mb-10">
+                    <div>
+                        <h2 class="text-3xl font-black tracking-tighter uppercase">Dealer <span class="text-amber-500">CMS Panel</span></h2>
+                        <p class="text-slate-500 text-sm">Real-time inventory and site management</p>
+                    </div>
+                    <button onclick="navigateTo('home')" class="bg-white/5 hover:bg-white/10 px-6 py-3 rounded-2xl font-bold text-sm transition-all">Sign Out</button>
+                </div>
+
+                <div class="flex space-x-6 mb-12 border-b border-white/5 pb-2">
+                    <button onclick="switchAdminTab('inv')" id="admin-tab-inv-btn" class="admin-tab-btn border-b-2 border-amber-500 text-amber-500 pb-4 font-bold text-sm uppercase tracking-widest">Inventory</button>
+                    <button onclick="switchAdminTab('settings')" id="admin-tab-settings-btn" class="admin-tab-btn border-b-2 border-transparent text-slate-500 pb-4 font-bold text-sm uppercase tracking-widest">Site Settings</button>
+                </div>
+
+                <!-- ADMIN: INVENTORY TAB -->
+                <div id="admin-view-inv" class="admin-view">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                        <div class="lg:col-span-1">
+                            <div class="glass p-8 rounded-[2rem] sticky top-28 border-amber-500/20">
+                                <h3 class="text-xl font-bold mb-8 flex items-center"><i class="fas fa-plus-circle mr-3 text-amber-500"></i>Add New Vehicle</h3>
+                                <div class="space-y-4">
+                                    <input type="text" id="adm-in-year" placeholder="Year" class="w-full glass bg-transparent rounded-xl p-4 text-sm outline-none focus:border-amber-500 transition-all">
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <input type="text" id="adm-in-make" placeholder="Make" class="w-full glass bg-transparent rounded-xl p-4 text-sm outline-none focus:border-amber-500">
+                                        <input type="text" id="adm-in-model" placeholder="Model" class="w-full glass bg-transparent rounded-xl p-4 text-sm outline-none focus:border-amber-500">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <input type="number" id="adm-in-price" placeholder="Price ($)" class="w-full glass bg-transparent rounded-xl p-4 text-sm outline-none focus:border-amber-500">
+                                        <input type="text" id="adm-in-mileage" placeholder="Mileage" class="w-full glass bg-transparent rounded-xl p-4 text-sm outline-none focus:border-amber-500">
+                                    </div>
+                                    <input type="text" id="adm-in-vin" placeholder="VIN Number" class="w-full glass bg-transparent rounded-xl p-4 text-sm outline-none focus:border-amber-500">
+                                    <input type="text" id="adm-in-engine" placeholder="Engine (e.g. V6 3.5L)" class="w-full glass bg-transparent rounded-xl p-4 text-sm outline-none focus:border-amber-500">
+                                    
+                                    <div class="pt-4">
+                                        <p class="text-[10px] font-black uppercase text-slate-500 mb-3 tracking-widest">Multi-Image Uploader</p>
+                                        <div id="adm-drop-zone" class="border-2 border-dashed border-white/10 rounded-2xl h-36 flex flex-col items-center justify-center cursor-pointer hover:bg-white/5 transition-all relative overflow-hidden group">
+                                            <i class="fas fa-images text-2xl text-slate-600 group-hover:text-amber-500 transition-all"></i>
+                                            <p class="text-[10px] text-slate-600 mt-2">DRAG PHOTOS HERE OR PASTE</p>
+                                        </div>
+                                        <div id="adm-img-preview-row" class="flex flex-wrap gap-2 mt-4"></div>
+                                    </div>
+
+                                    <button onclick="handleAdminCarSave()" class="w-full bg-amber-500 text-black py-4 rounded-2xl font-black text-sm uppercase tracking-widest mt-6 shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all">POST VEHICLE TO LOT</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-2 space-y-4" id="admin-inventory-list">
+                            <!-- Admin List of Cars -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADMIN: SETTINGS TAB -->
+                <div id="admin-view-settings" class="admin-view hidden">
+                    <div class="max-w-2xl mx-auto glass p-12 rounded-[3rem] border-white/5">
+                        <h3 class="text-2xl font-black mb-10 tracking-tight">GLOBAL SITE <span class="text-amber-500">CONFIGURATION</span></h3>
+                        <div class="space-y-8">
+                            <div>
+                                <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3 block">Dealer Name</label>
+                                <input type="text" id="adm-set-name" class="w-full glass bg-transparent rounded-2xl p-5 text-sm outline-none focus:border-amber-500">
+                            </div>
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3 block">Public Phone</label>
+                                    <input type="text" id="adm-set-phone" class="w-full glass bg-transparent rounded-2xl p-5 text-sm outline-none focus:border-amber-500">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3 block">Public Email</label>
+                                    <input type="text" id="adm-set-email" class="w-full glass bg-transparent rounded-2xl p-5 text-sm outline-none focus:border-amber-500">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3 block">Physical Address</label>
+                                <input type="text" id="adm-set-address" class="w-full glass bg-transparent rounded-2xl p-5 text-sm outline-none focus:border-amber-500">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3 block">Business Hours</label>
+                                <textarea id="adm-set-hours" class="w-full glass bg-transparent rounded-2xl p-5 text-sm outline-none focus:border-amber-500 h-32 leading-relaxed"></textarea>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest mb-3 block">Google Maps Embed Link</label>
+                                <input type="text" id="adm-set-map" class="w-full glass bg-transparent rounded-2xl p-5 text-sm outline-none focus:border-amber-500" placeholder="Paste iframe src url...">
+                            </div>
+                            
+                            <button onclick="handleGlobalSettingsUpdate()" class="w-full bg-amber-500 text-black py-5 rounded-2xl font-black text-sm uppercase tracking-widest mt-6 shadow-xl shadow-amber-500/20">SAVE CHANGES GLOBALLY</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 pt-24 pb-12 px-6 md:px-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-center md:text-left">
+                <span class="text-2xl font-black text-white uppercase tracking-tighter" id="footer-brand">PICK AUTO SALES</span>
+                <p class="text-slate-600 text-xs mt-3 uppercase tracking-widest font-bold">Madison, Tennessee • Quality Pre-Owned</p>
+            </div>
+            
+            <div class="flex space-x-10 text-slate-500">
+                <a href="javascript:void(0)" onclick="navigateTo('home')" class="hover:text-amber-500 transition uppercase text-[10px] font-black tracking-widest">Home</a>
+                <a href="javascript:void(0)" onclick="navigateTo('inventory')" class="hover:text-amber-500 transition uppercase text-[10px] font-black tracking-widest">Inventory</a>
+                <a href="javascript:void(0)" onclick="navigateTo('contact')" class="hover:text-amber-500 transition uppercase text-[10px] font-black tracking-widest">Location</a>
+            </div>
+
+            <button onclick="handleAdminLoginTrigger()" class="text-slate-800 hover:text-slate-500 transition text-[9px] uppercase font-black tracking-[0.4em]">System Login</button>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-white/5 mt-16 pt-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center">
+            <p class="text-slate-700 text-[10px] font-medium tracking-widest">© 2024 PICK AUTO SALES. ALL RIGHTS RESERVED.</p>
+            <div class="flex space-x-6 mt-6 md:mt-0 opacity-20 hover:opacity-100 transition-opacity">
+                <i class="fab fa-cc-visa text-xl"></i>
+                <i class="fab fa-cc-mastercard text-xl"></i>
+                <i class="fab fa-cc-amex text-xl"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT SECTION -->
+    <script>
+        /**
+         * PICK AUTO SALES - ENGINE V3
+         * FULL SINGLE-FILE PERSISTENT STACK
+         */
+
+        // --- CORE STATE ---
+        let siteSettings = JSON.parse(localStorage.getItem('pas_settings')) || {
+            name: "Pick Auto Sales",
+            phone: "615-574-3007",
+            email: "sales@pickautosales.com",
+            address: "1484 Gallatin Pike N, Madison, TN 37115",
+            hours: "Mon - Sat: 9:00 AM - 6:00 PM\nSunday: Closed",
+            map_src: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3215.867623910609!2d-86.7027581!3d36.2911181!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886440263f37b129%3A0xc34568f6358356e4!2s1484%20Gallatin%20Pike%20N%2C%20Madison%2C%20TN%2037115!5e0!3m2!1sen!2sus!4v1683400000000",
+            hero_h: "UNCOMPROMISED<br><span class='text-gradient'>EXCELLENCE.</span>",
+            hero_p: "The ultimate destination for premium pre-owned vehicles with transparent pricing and white-glove service."
+        };
+
+        let carInventory = JSON.parse(localStorage.getItem('pas_inventory')) || [
+            { id: 1715632123000, year: "2021", make: "Mercedes-Benz", model: "AMG C63 S", price: 68900, mileage: "14,200", vin: "WDDWF8EB1MF12345", engine: "4.0L V8 BiTurbo", status: "Available", images: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1000"] },
+            { id: 1715632123001, year: "2020", make: "Porsche", model: "Taycan Turbo S", price: 114500, mileage: "8,900", vin: "WP1AB2Y12LA12345", engine: "Electric 750HP", status: "Available", images: ["https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000"] },
+            { id: 1715632123002, year: "2022", make: "Land Rover", model: "Defender 110 V8", price: 92000, mileage: "12,100", vin: "SALYA2V81NA12345", engine: "5.0L Supercharged V8", status: "Available", images: ["https://images.unsplash.com/photo-1611016186353-9af58c69a533?auto=format&fit=crop&q=80&w=1000"] }
+        ];
+
+        const reviewsData = [
+            { name: "Ashley", text: "Amazing car !!! It was quick and fast very nice people ! Thank yall !", date: "9 months ago", reply: "Thanks for the kind words Ashley and we are glad that we could help" },
+            { name: "Sandy Elsawa", text: "Good people, good service and definitely good cars.", date: "2 months ago", reply: null },
+            { name: "Younes Koushkebaghi", text: "The best quality car and good price highly recommended.", date: "2 years ago", reply: null },
+            { name: "Beau Rodriguez", text: "Younes helped me out a lot and finding my dream car!!!", date: "10 months ago", reply: null }
+        ];
+
+        let adminImageBuffer = [];
+
+        // --- NAVIGATION ENGINE ---
+        function navigateTo(id) {
+            document.querySelectorAll('.page-node').forEach(page => page.classList.remove('active'));
+            document.getElementById(`view-${id}`).classList.add('active');
+            window.scrollTo(0,0);
+            
+            // Context Refreshers
+            if(id === 'home') syncHomeGrid();
+            if(id === 'inventory') runCatalogFilter();
+            if(id === 'reviews') renderReviewsWall();
+            if(id === 'admin') syncAdminView();
+        }
+
+        // --- APP SYNC & RENDERERS ---
+        function globalAppSync() {
+            // Update Text Everywhere
+            document.getElementById('site-brand-name').innerText = siteSettings.name.toUpperCase();
+            document.getElementById('footer-brand').innerText = siteSettings.name.toUpperCase();
+            document.getElementById('nav-phone-text').innerText = siteSettings.phone;
+            document.getElementById('nav-cta-phone').href = `tel:${siteSettings.phone}`;
+            
+            document.getElementById('home-hero-text').innerHTML = siteSettings.hero_h;
+            document.getElementById('home-hero-sub').innerText = siteSettings.hero_p;
+            
+            document.getElementById('contact-p-phone').innerText = siteSettings.phone;
+            document.getElementById('contact-p-address').innerText = siteSettings.address;
+            document.getElementById('contact-p-hours').innerText = siteSettings.hours;
+            document.getElementById('contact-p-map').src = siteSettings.map_src;
+            document.getElementById('contact-map-btn').href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(siteSettings.address)}`;
+
+            // Admin Prep
+            document.getElementById('adm-set-name').value = siteSettings.name;
+            document.getElementById('adm-set-phone').value = siteSettings.phone;
+            document.getElementById('adm-set-email').value = siteSettings.email;
+            document.getElementById('adm-set-address').value = siteSettings.address;
+            document.getElementById('adm-set-hours').value = siteSettings.hours;
+            document.getElementById('adm-set-map').value = siteSettings.map_src;
+
+            syncHomeGrid();
+        }
+
+        function syncHomeGrid() {
+            const grid = document.getElementById('home-featured-grid');
+            const featured = carInventory.slice(0, 3);
+            grid.innerHTML = featured.map(car => renderCarCard(car)).join('');
+        }
+
+        function runCatalogFilter() {
+            const grid = document.getElementById('catalog-grid');
+            const empty = document.getElementById('catalog-empty');
+            const q = document.getElementById('inv-search-input').value.toLowerCase();
+            
+            const filtered = carInventory.filter(car => 
+                `${car.year} ${car.make} ${car.model}`.toLowerCase().includes(q) && car.status !== 'Hidden'
+            );
+
+            if(filtered.length === 0) {
+                grid.innerHTML = "";
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+                grid.innerHTML = filtered.map(car => renderCarCard(car)).join('');
+            }
+        }
+
+        function renderCarCard(car) {
+            const isSold = car.status === 'Sold';
+            return `
+                <div onclick="renderVehicleDetailView(${car.id})" class="glass-card rounded-[2.5rem] overflow-hidden cursor-pointer group relative">
+                    <div class="h-64 relative overflow-hidden">
+                        <img src="${car.images[0]}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${isSold ? 'grayscale' : ''}">
+                        <div class="absolute top-5 left-5">
+                            ${isSold ? '<span class="sold-tag">Sold</span>' : '<span class="bg-amber-500 text-black text-[9px] px-3 py-1.5 rounded-full font-black uppercase shadow-lg">New Arrival</span>'}
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold tracking-tight">${car.year} ${car.make} ${car.model}</h3>
+                        </div>
+                        <div class="flex space-x-3 mb-6 text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                            <span>${car.mileage} mi</span>
+                            <span>•</span>
+                            <span>${car.engine}</span>
+                        </div>
+                        <div class="flex justify-between items-center pt-6 border-t border-white/5">
+                            <span class="text-2xl font-black text-amber-500">$${car.price.toLocaleString()}</span>
+                            <span class="text-xs font-bold text-slate-400 group-hover:text-amber-500 transition-colors uppercase tracking-widest">Explore <i class="fas fa-chevron-right ml-1"></i></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- VEHICLE DETAIL ENGINE ---
+        function renderVehicleDetailView(id) {
+            const car = carInventory.find(c => c.id === id);
+            navigateTo('details');
+            
+            const area = document.getElementById('details-render-area');
+            area.innerHTML = `
+                <div class="space-y-6">
+                    <div class="glass border-white/10 rounded-[3rem] overflow-hidden aspect-video shadow-2xl relative">
+                        <img id="main-view-img" src="${car.images[0]}" class="w-full h-full object-cover">
+                        ${car.status === 'Sold' ? '<div class="absolute inset-0 bg-black/40 flex items-center justify-center"><h2 class="text-8xl font-black text-white/20 rotate-[-15deg]">SOLD</h2></div>' : ''}
+                    </div>
+                    <div class="flex gap-4 overflow-x-auto pb-4 custom-scroll">
+                        ${car.images.map((img, idx) => `
+                            <img onclick="updateMainDetailImage('${img}')" src="${img}" class="w-32 h-24 rounded-2xl object-cover cursor-pointer hover:opacity-100 transition-opacity opacity-60 border border-white/5">
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center">
+                    <span class="text-amber-500 font-black tracking-[0.4em] uppercase text-xs mb-4">Stock #${car.id.toString().slice(-6)}</span>
+                    <h1 class="text-5xl md:text-7xl font-black tracking-tighter mb-2">${car.year} ${car.make}</h1>
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-500 mb-8">${car.model}</h2>
+                    <div class="text-5xl font-black text-white mb-12">$${car.price.toLocaleString()} <span class="text-sm font-bold text-slate-600 uppercase tracking-widest">+ Tax & Fees</span></div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-12">
+                        <div class="glass p-6 rounded-3xl">
+                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Mileage</p>
+                            <p class="text-lg font-bold">${car.mileage} miles</p>
+                        </div>
+                        <div class="glass p-6 rounded-3xl">
+                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Engine</p>
+                            <p class="text-lg font-bold">${car.engine}</p>
+                        </div>
+                        <div class="glass p-6 rounded-3xl col-span-2">
+                            <p class="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">VIN Identification</p>
+                            <p class="text-sm font-mono tracking-wider font-bold text-slate-400">${car.vin}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-4">
+                        <a href="tel:${siteSettings.phone}" class="flex-1 bg-amber-500 text-black py-6 rounded-3xl font-black text-center shadow-xl shadow-amber-500/20 hover:scale-[1.02] transition-transform uppercase tracking-widest text-sm">Call Specialist</a>
+                        <button onclick="window.print()" class="w-16 h-16 glass rounded-3xl flex items-center justify-center text-slate-400 hover:text-white transition-all"><i class="fas fa-print"></i></button>
+                    </div>
+                    
+                    <div class="mt-8 p-6 bg-white/5 rounded-3xl border border-white/5">
+                        <p class="text-xs text-slate-500 italic">"Please note: All vehicle specifications, pricing, and availability are subject to change. Contact our sales department for final confirmation."</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateMainDetailImage(src) {
+            const main = document.getElementById('main-view-img');
+            main.style.opacity = 0;
+            setTimeout(() => {
+                main.src = src;
+                main.style.opacity = 1;
+            }, 200);
+        }
+
+        // --- REVIEWS ENGINE ---
+        function renderReviewsWall() {
+            const wall = document.getElementById('reviews-wall');
+            wall.innerHTML = reviewsData.map(r => `
+                <div class="glass p-10 rounded-[2.5rem] border-white/5 relative group">
+                    <i class="fas fa-quote-right absolute top-8 right-8 text-white/5 text-4xl group-hover:text-amber-500/20 transition-all"></i>
+                    <div class="flex text-amber-500 mb-6 text-xs gap-1">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-xl italic text-slate-300 leading-relaxed mb-10">"${r.text}"</p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <p class="font-black text-white uppercase tracking-tighter">${r.name}</p>
+                            <p class="text-[10px] text-slate-600 font-bold uppercase tracking-widest mt-1">${r.date}</p>
+                        </div>
+                    </div>
+                    ${r.reply ? `
+                        <div class="mt-8 p-6 bg-amber-500/5 rounded-2xl border-l-2 border-amber-500/30">
+                            <p class="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-2">Dealer Response</p>
+                            <p class="text-sm text-slate-400 font-medium italic">"${r.reply}"</p>
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // --- ADMIN ENGINE ---
+        function handleAdminLoginTrigger() {
+            const pw = prompt("System Access Key Required:");
+            if(pw === "admin") navigateTo('admin');
+            else if(pw !== null) alert("Authentication Denied.");
+        }
+
+        function switchAdminTab(type) {
+            document.querySelectorAll('.admin-view').forEach(v => v.classList.add('hidden'));
+            document.querySelectorAll('.admin-tab-btn').forEach(b => {
+                b.classList.remove('border-amber-500', 'text-amber-500');
+                b.classList.add('border-transparent', 'text-slate-500');
+            });
+
+            document.getElementById(`admin-view-${type}`).classList.remove('hidden');
+            document.getElementById(`admin-tab-${type}-btn`).classList.add('border-amber-500', 'text-amber-500');
+            document.getElementById(`admin-tab-${type}-btn`).classList.remove('border-transparent', 'text-slate-500');
+            
+            if(type === 'inv') syncAdminView();
+        }
+
+        function syncAdminView() {
+            const list = document.getElementById('admin-inventory-list');
+            list.innerHTML = carInventory.map(car => `
+                <div class="glass p-6 rounded-3xl flex items-center justify-between border-white/5 hover:bg-white/5 transition-all">
+                    <div class="flex items-center space-x-6">
+                        <img src="${car.images[0]}" class="w-20 h-20 rounded-2xl object-cover border border-white/10">
+                        <div>
+                            <div class="flex items-center gap-3">
+                                <h4 class="font-bold text-lg">${car.year} ${car.make} ${car.model}</h4>
+                                <span class="text-[9px] px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-bold uppercase tracking-widest">${car.status}</span>
+                            </div>
+                            <p class="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">$${car.price.toLocaleString()} • VIN: ${car.vin.slice(0,8)}...</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="toggleCarStatus(${car.id})" class="w-12 h-12 glass rounded-2xl flex items-center justify-center text-slate-500 hover:text-amber-500 transition-all" title="Toggle Sold Status"><i class="fas fa-tag"></i></button>
+                        <button onclick="hideCarFromLot(${car.id})" class="w-12 h-12 glass rounded-2xl flex items-center justify-center text-slate-500 hover:text-white transition-all" title="Hide/Unhide"><i class="fas fa-eye-slash"></i></button>
+                        <button onclick="deleteCarFromSystem(${car.id})" class="w-12 h-12 glass rounded-2xl flex items-center justify-center text-red-900/50 hover:text-red-500 transition-all"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleAdminCarSave() {
+            const data = {
+                id: Date.now(),
+                year: document.getElementById('adm-in-year').value,
+                make: document.getElementById('adm-in-make').value,
+                model: document.getElementById('adm-in-model').value,
+                price: parseInt(document.getElementById('adm-in-price').value),
+                mileage: document.getElementById('adm-in-mileage').value,
+                vin: document.getElementById('adm-in-vin').value,
+                engine: document.getElementById('adm-in-engine').value,
+                status: "Available",
+                images: adminImageBuffer.length > 0 ? adminImageBuffer : ["https://via.placeholder.com/1000x600?text=Pending+Image"]
+            };
+
+            if(!data.make || !data.price) return alert("Make and Price are mandatory fields.");
+
+            carInventory.unshift(data);
+            localStorage.setItem('pas_inventory', JSON.stringify(carInventory));
+            
+            // Clear Form
+            document.querySelectorAll('#admin-view-inv input').forEach(i => i.value = "");
+            adminImageBuffer = [];
+            document.getElementById('adm-img-preview-row').innerHTML = "";
+            
+            syncAdminView();
+            alert("Vehicle published to the lot successfully.");
+        }
+
+        function handleGlobalSettingsUpdate() {
+            siteSettings.name = document.getElementById('adm-set-name').value;
+            siteSettings.phone = document.getElementById('adm-set-phone').value;
+            siteSettings.email = document.getElementById('adm-set-email').value;
+            siteSettings.address = document.getElementById('adm-set-address').value;
+            siteSettings.hours = document.getElementById('adm-set-hours').value;
+            siteSettings.map_src = document.getElementById('adm-set-map').value;
+
+            localStorage.setItem('pas_settings', JSON.stringify(siteSettings));
+            globalAppSync();
+            alert("Global settings updated. Changes are now live.");
+        }
+
+        function toggleCarStatus(id) {
+            const car = carInventory.find(c => c.id === id);
+            car.status = car.status === 'Sold' ? 'Available' : 'Sold';
+            localStorage.setItem('pas_inventory', JSON.stringify(carInventory));
+            syncAdminView();
+        }
+
+        function hideCarFromLot(id) {
+            const car = carInventory.find(c => c.id === id);
+            car.status = car.status === 'Hidden' ? 'Available' : 'Hidden';
+            localStorage.setItem('pas_inventory', JSON.stringify(carInventory));
+            syncAdminView();
+        }
+
+        function deleteCarFromSystem(id) {
+            if(confirm("Confirm permanent removal of this vehicle from records?")) {
+                carInventory = carInventory.filter(c => c.id !== id);
+                localStorage.setItem('pas_inventory', JSON.stringify(carInventory));
+                syncAdminView();
+            }
+        }
+
+        // --- IMAGE UPLOADER ENGINE ---
+        const dz = document.getElementById('adm-drop-zone');
+        dz.onclick = () => {
+            const i = document.createElement('input');
+            i.type = 'file'; i.multiple = true; i.accept = 'image/*';
+            i.onchange = (e) => processAdminImages(e.target.files);
+            i.click();
+        };
+
+        dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('bg-amber-500/5'); };
+        dz.ondrop = (e) => { e.preventDefault(); processAdminImages(e.dataTransfer.files); };
+        
+        window.onpaste = (e) => {
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf("image") !== -1) {
+                    processAdminImages([items[i].getAsFile()]);
+                }
+            }
+        };
+
+        function processAdminImages(files) {
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    adminImageBuffer.push(e.target.result);
+                    const thumb = document.createElement('div');
+                    thumb.className = "w-16 h-16 rounded-xl overflow-hidden border border-white/10 relative group";
+                    thumb.innerHTML = `
+                        <img src="${e.target.result}" class="w-full h-full object-cover">
+                        <div onclick="this.parentElement.remove()" class="absolute inset-0 bg-red-500/80 opacity-0 group-hover:opacity-100 flex items-center justify-center cursor-pointer transition-opacity">
+                            <i class="fas fa-times text-white text-xs"></i>
+                        </div>
+                    `;
+                    document.getElementById('adm-img-preview-row').appendChild(thumb);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // --- UTILITIES ---
+        function clearInvFilters() {
+            document.getElementById('inv-search-input').value = "";
+            runCatalogFilter();
+        }
+
+        // --- INITIALIZATION ---
+        window.onload = () => {
+            globalAppSync();
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = 0;
+                setTimeout(() => document.getElementById('loader').remove(), 700);
+            }, 1000);
+        };
+
+        // Scroll Logic
+        window.onscroll = () => {
+            const nav = document.getElementById('mainNav');
+            if (window.scrollY > 100) nav.classList.add('py-2', 'bg-slate-950/90');
+            else nav.classList.remove('py-2', 'bg-slate-950/90');
+        };
+    </script>
+</body>
+</html>
